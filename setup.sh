@@ -1,20 +1,26 @@
 #!/bin/bash
 
+# Ensure script uses Unix-style line endings
+if file "$0" | grep -q CRLF; then
+  echo "Converting script to Unix line endings..."
+  sed -i 's/\r$//' "$0"
+fi
+
 # Check the operating system
 OS=$(uname -o)
 
 # If running on Windows or MSYS, perform the following actions
 if [[ ${OS^^} == *'MSYS'* || ${OS^^} == *'WINDOWS'* ]]; then
   PREFIX="/usr"
-  
+
   # Check if the Administrator account is active
   adminPerm=$(net user administrator | grep active | awk '{print $NF}')
-  
+
   # Toggle the Administrator account's active status
   case ${adminPerm,,} in
     yes) opposite="no";;
     no) opposite="yes";;
-    *) 
+    *)
       printf "Not possible to run this\n"
       exit 1
       ;;
@@ -25,7 +31,7 @@ if [[ ${OS^^} == *'MSYS'* || ${OS^^} == *'WINDOWS'* ]]; then
 
   # Re-check the Administrator account status
   adminPerm=$(net user administrator | grep active | awk '{print $NF}')
-  
+
   if [[ ${adminPerm,,} != "${opposite}" ]]; then
     printf "\033[1;2;4;5;32m[\033[31m!\033[32m] \033[34mRun this command prompt or shell in Administrator mode\033[0m\n"
     exit 1
@@ -46,7 +52,7 @@ printf "\033[32mSetting up Cloudflare in your system\033[00m\n"
 cd $PREFIX/share >/dev/null 2>&1
 
 # Clean up any existing Cloudflare UI installation
-rm -rf $PREFIX/share/cloudflare-ui >/dev/null 2>&1
+rm -rf $PREFIX/share/cloudflare >/dev/null 2>&1
 
 # Clone the Cloudflare repository
 git clone https://github.com/sandeeptechcloud/cloudflare
@@ -65,13 +71,13 @@ if ! hash cloudflared >/dev/null 2>&1; then
 fi
 
 # Create a wrapper script for Cloudflare
-cat <<- VAR > $PREFIX/bin/cloudflare
+cat <<- 'VAR' > $PREFIX/bin/cloudflare
 #!/bin/bash
-arg1="\$1"
-arg2="\$2"
-arg3="\$3"
-cd $PREFIX/share/cloudflare-ui
-bash cloudflare \${arg1} \${arg2} \${arg3}
+arg1="$1"
+arg2="$2"
+arg3="$3"
+cd $PREFIX/share/cloudflare
+bash cloudflare ${arg1} ${arg2} ${arg3}
 VAR
 
 # Make the wrapper script executable
