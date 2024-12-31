@@ -41,3 +41,4 @@ bash cloudflare \${arg1} \${arg2} \${arg3}
 VAR
 chmod +x $PREFIX/bin/cloudflare
 printf "\n\nConfiguration completed just run 'clouflare --help' for help\n\n"
+termux-open-url https://instagram.com/sandeep_tech
