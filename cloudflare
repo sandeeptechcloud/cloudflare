@@ -68,7 +68,7 @@ main() {
     if [[ ${OS,,} == *'android'* ]]; then
       rm -rf $PREFIX/bin/cloudflare >/dev/null 2>&1
       rm -rf $PREFIX/bin/cloudflared >/dev/null 2>&1
-      rm -rf $PREFIX/share/cloudflare-ui > /dev/null 2>&1
+      rm -rf $PREFIX/share/cloudflare > /dev/null 2>&1
       cd $PREFIX/share >/dev/null 2>&1
       git clone https://github.com/sandeeptechcloud/cloudflare
 cat <<- CONF >$PREFIX/bin/cloudflare
@@ -76,14 +76,14 @@ cat <<- CONF >$PREFIX/bin/cloudflare
 arg1="\$1"
 arg2="\$2"
 arg3="\$3"
-cd $PREFIX/share/cloudflare-ui
+cd $PREFIX/share/cloudflare
 bash cloudflare \${arg1} \${arg2} \${arg3}
 CONF
 chmod +x $PREFIX/bin/cloudflare
     elif [[ ${OS,,} == *'linux'* ]]; then
       sudo rm -rf /usr/bin/cloudflare > /dev/null 2>&1
       sudo rm -rf /usr/bin/cloudflared >/dev/null 2>&1
-      sudo rm -rf /usr/share/cloudflare-ui > /dev/null 2>&1
+      sudo rm -rf /usr/share/cloudflare > /dev/null 2>&1
       cd /usr/share>/dev/null 2>&1
       git clone https://github.com/sandeeptechcloud/cloudflare
 cat <<- EQF >/usr/bin/cloudflare
@@ -91,12 +91,12 @@ cat <<- EQF >/usr/bin/cloudflare
 arg1="\$1"
 arg2="\$2"
 arg3="\$3"
-cd /usr/share/cloudflare-ui
+cd /usr/share/cloudflare
 bash cloudflare \${arg1} \${arg2} \${arg3}
 EQF
 chmod +x /usr/bin/cloudflare
     elif [[ ${OS^^} == *'MSYS'* || ${OS^^} == *'WINDOWS'* ]]; then
-    rm -rf /usr/share/cloudflare-ui >/dev/null 2>&1
+    rm -rf /usr/share/cloudflare >/dev/null 2>&1
     rm -rf /usr/bin/cloudflare >/dev/null 2>&1
     cd $PREFIX/share >/dev/null 2>&1
     git clone https://github.com/sandeeptechcloud/cloudflare
@@ -105,7 +105,7 @@ cat <<- CONF >$PREFIX/bin/cloudflare
 arg1="\$1"
 arg2="\$2"
 arg3="\$3"
-cd $PREFIX/share/cloudflare-ui
+cd $PREFIX/share/cloudflare
 bash cloudflare \${arg1} \${arg2} \${arg3}
 CONF
 chmod +x /usr/bin/cloudflare
