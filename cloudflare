@@ -7,7 +7,6 @@ PWD=$(pwd)
 ar1="$1"
 ar2="$2"
 ar3="$3"
-OS=$(uname -o)
 
 # Colors
 S0="\033[1;30m" B0="\033[1;40m"
@@ -21,31 +20,11 @@ S7="\033[1;37m" B7="\033[1;47m"
 R0="\033[00m" R1="\033[1;00m"
 D0="\033[77m"
 
-# Check for Administrator Permissions (Windows)
-if [[ ${OS^^} == *'MSYS'* || ${OS^^} == *'WINDOWS'* ]]; then
-  PREFIX="/usr"
-  adminPerm=$(net user administrator | grep active | awk '{print $NF}')
-  case ${adminPerm,,} in
-    yes) opposite="no" ;;
-    no) opposite="yes" ;;
-    *) printf "Not possible to run this\n"; exit 1 ;;
-  esac
-  net user administrator /active:${opposite} >/dev/null 2>&1
-  adminPerm=$(net user administrator | grep active | awk '{print $NF}')
-  if [[ ${adminPerm,,} != "${opposite}" ]]; then
-    printf "${S2}[${S1}!${S2}]${S4}Run this command prompt or shell in Administrator mode${R0}\n"
-    exit 1
-  fi
-fi
-
-# Requirements
+# Ensure cloudflared is installed
 version=$(cloudflared --version 2>/dev/null)
 if [[ $version != *'version'* ]]; then
-  rm -rf $PREFIX/bin/cloudflared >/dev/null 2>&1
-fi
-if ! hash cloudflared >/dev/null 2>&1; then
-  printf "${S2}Cloudflered not found in your system. Installing...${R0}\n"
-  source <(curl -fsSL "https://raw.githubusercontent.com/sandeeptechcloud/test/refs/heads/main/setup.sh")
+  printf "${S2}Cloudflared not found. Installing...${R0}\n"
+  pkg update -y && pkg install cloudflared -y
 fi
 
 # Banner Function
@@ -127,7 +106,7 @@ main() {
       ;;
     -u|--update)
       printf "${S4}Updating cloudflare script...${R0}\n"
-      # Add update logic here
+      # Add update logic here (e.g., pull latest changes)
       ;;
     --help|-h)
       help
