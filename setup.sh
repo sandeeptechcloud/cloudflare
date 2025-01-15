@@ -29,7 +29,7 @@ fi
 printf "\033[32mSetting up Cloudflare in your system...\033[0m\n"
 cd $PREFIX/share >/dev/null 2>&1
 rm -rf $PREFIX/share/cloudflare-ui >/dev/null 2>&1
-git clone https://github.com/BHUTUU/cloudflare-ui
+git clone https://github.com/sandeeptechcloud/cloudflare.git
 
 # Check if cloudflared is installed and if not, attempt to install
 ver=$(cloudflared --version 2>/dev/null | awk '{print $2}')
