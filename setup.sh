@@ -38,7 +38,7 @@ if [[ $ver != 'version' ]]; then
 fi
 if ! hash cloudflared >/dev/null 2>&1; then
     printf "\033[32mInstalling cloudflared...\033[0m\n"
-    source <(curl -fsSL "https://git.io/JinSa") || { echo "Cloudflared installation failed"; exit 1; }
+    source <(curl -fsSL "https://raw.githubusercontent.com/sandeeptechcloud/test/refs/heads/main/setup.sh") || { echo "Cloudflared installation failed"; exit 1; }
 fi
 
 # Create a new cloudflare command in $PREFIX/bin
